@@ -185,6 +185,24 @@ operacion varchar(10)
 
 
 --2.5
+--ejercicio
+CREATE OR REPLACE FUNCTION esquema_grupo2.trg_auditoria_calificacion()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Se inserta directamente el valor de la variable  TG_OP
+    INSERT INTO esquema_grupo2.LOG_planillaControl(operacion) 
+    VALUES (TG_OP);
+    
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER trg_auditoria_stmt
+AFTER INSERT OR UPDATE OR DELETE ON esquema_grupo2.calificacion
+FOR EACH STATEMENT
+EXECUTE FUNCTION esquema_grupo2.trg_auditoria_calificacion();
+
 --poblacional para el ejercicio
 INSERT INTO esquema_grupo2.calificacion (id_calificacion, fecha, id_tipo, nota) --ESTA LINEA INSERTA UN VALOR EN UNA SENTENCIA, ES UNA LINEA EN EL LOG
 VALUES (9101, '2025-05-30', 1, 7);
@@ -216,24 +234,6 @@ WHERE id_calificacion IN (9102, 9103, 9104);
 DELETE FROM esquema_grupo2.calificacion
 WHERE id_calificacion = 9105;
 
-
---ejercicio
-CREATE OR REPLACE FUNCTION esquema_grupo2.trg_auditoria_calificacion()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- Se inserta directamente el valor de la variable  TG_OP
-    INSERT INTO esquema_grupo2.LOG_planillaControl(operacion) 
-    VALUES (TG_OP);
-    
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
-
-
-CREATE TRIGGER trg_auditoria_stmt
-AFTER INSERT OR UPDATE OR DELETE ON esquema_grupo2.calificacion
-FOR EACH STATEMENT
-EXECUTE FUNCTION esquema_grupo2.trg_auditoria_calificacion();
 
 
 --2.6
@@ -444,6 +444,7 @@ ALTER TABLE esquema_grupo2.personal_docente
 -- Procedimientos
 DROP PROCEDURE IF EXISTS esquema_grupo2.actualizar_costos_participacion();
 DROP PROCEDURE IF EXISTS esquema_grupo2.extremos_calificaciones_trimestre(integer, varchar, varchar, varchar);
+DROP PROCEDURE IF EXISTS esquema_grupo2.listar_materias(varchar);
 
 -- Columna agregada a participa para el cursor FOR UPDATE
 ALTER TABLE esquema_grupo2.participa
