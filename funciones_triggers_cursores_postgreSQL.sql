@@ -76,7 +76,7 @@ FROM personal_docente p NATURAL JOIN OCUPA o
 WHERE o.fecha_fin IS NOT NULL AND o.id_cargo = 10;
 
 --1.4
-CREATE OR REPLACE FUNCTION esquema_grupo2.calcular_meses (fecha1 date, fecha2 date)
+CREATE OR REPLACE FUNCTION esquema_grupo2.calcular_meses2 (fecha1 date, fecha2 date)
 RETURNS integer 
 RETURNS NULL ON NULL INPUT 
 AS $$
@@ -269,11 +269,11 @@ EXECUTE FUNCTION esquema_grupo2.trg_verificar_curso_dictado();
 
 INSERT INTO esquema_grupo2.dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Tarde', 1);
 
-INSERT INTO esquema_grupo2.dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Manana', 1); 
+-- INSERT INTO esquema_grupo2.dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Manana', 1); 
 
-INSERT INTO esquema_grupo2.dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Noche', 1); 
+-- INSERT INTO esquema_grupo2.dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Noche', 1); 
 
-UPDATE esquema_grupo2.dictado SET turno = 'Noche' WHERE ciclo_lectivo = '2025' AND seccion = 'Y' AND turno = 'Tarde' AND id_materia = 1; 
+-- UPDATE esquema_grupo2.dictado SET turno = 'Noche' WHERE ciclo_lectivo = '2025' AND seccion = 'Y' AND turno = 'Tarde' AND id_materia = 1; 
 
 DELETE FROM esquema_grupo2.dictado WHERE ciclo_lectivo = '2025' AND seccion = 'Y'; 
 DELETE FROM esquema_grupo2.curso WHERE seccion = 'Y'; 
@@ -453,6 +453,7 @@ ALTER TABLE esquema_grupo2.participa
 -- Funciones
 DROP FUNCTION IF EXISTS esquema_grupo2.costo_salida_por_alumno(int);
 DROP FUNCTION IF EXISTS esquema_grupo2.calcular_meses(date, date);
+DROP FUNCTION IF EXISTS esquema_grupo2.calcular_meses2(date, date);
 DROP FUNCTION IF EXISTS esquema_grupo2.antiguedad_cargo_profesor(varchar, int, int);
 */
 
