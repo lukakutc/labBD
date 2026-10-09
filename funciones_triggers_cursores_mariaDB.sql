@@ -74,7 +74,7 @@ VALUES
 
 
 SELECT p.nombre, p.apellido, o.fecha_ini, o.fecha_fin, calcular_meses(o.fecha_ini,o.fecha_fin) AS cant_meses
-FROM personal_docente p NATURAL JOIN OCUPA o 
+FROM personal_docente p NATURAL JOIN ocupa o 
 WHERE o.fecha_fin IS NOT NULL AND o.id_cargo = 10;
 
 -- 1.4
@@ -332,11 +332,11 @@ DELIMITER ;
 -- prueba del ejercicio y drop del poblacional
 INSERT INTO dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Tarde', 1);
 
-INSERT INTO dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Manana', 1); 
+-- INSERT INTO dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Manana', 1); 
 
-INSERT INTO dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Noche', 1); 
+-- INSERT INTO dictado (ciclo_lectivo, seccion, turno, id_materia) VALUES ('2025', 'Y', 'Noche', 1); 
 
-UPDATE dictado SET turno = 'Noche' WHERE ciclo_lectivo = '2025' AND seccion = 'Y' AND turno = 'Tarde' AND id_materia = 1; 
+-- UPDATE dictado SET turno = 'Noche' WHERE ciclo_lectivo = '2025' AND seccion = 'Y' AND turno = 'Tarde' AND id_materia = 1; 
 
 DELETE FROM dictado WHERE ciclo_lectivo = '2025' AND seccion = 'Y'; 
 DELETE FROM curso WHERE seccion = 'Y'; 
@@ -546,7 +546,7 @@ CALL listar_materias_area('Lengua y Literatura');
 /*
 DROP TRIGGER IF EXISTS trg_control_dictado_curso_insert;
 DROP TRIGGER IF EXISTS trg_control_dictado_curso_update;
-DROP TRIGGER IF EXISTS `trg_dictados_año`;
+DROP TRIGGER IF EXISTS trg_dictados_año;
 DROP TRIGGER IF EXISTS trg_cascada_manual_intervencion;
 DROP TRIGGER IF EXISTS trg_auditoria_insert;
 DROP TRIGGER IF EXISTS trg_auditoria_update;
@@ -565,7 +565,7 @@ DROP PROCEDURE IF EXISTS actualizar_costos_participacion;
 DROP PROCEDURE IF EXISTS extremos_calificaciones_trimestre;
 DROP PROCEDURE IF EXISTS costo_salida_por_alumno;
 DROP PROCEDURE IF EXISTS listar_materias;
-DROP PROCEDURE IF EXISTS listar_materias_areas;
+DROP PROCEDURE IF EXISTS listar_materias_area;
 DROP PROCEDURE IF EXISTS listar_materias_cursor;
 
 DROP FUNCTION IF EXISTS calcular_meses;
