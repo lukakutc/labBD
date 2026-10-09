@@ -211,6 +211,36 @@ CREATE TABLE LOG_planillaControl (
 
 
 -- 2.5
+-- ejercicio
+DELIMITER //
+
+-- inserciones
+CREATE TRIGGER trg_auditoria_insert
+AFTER INSERT ON calificacion
+FOR EACH ROW
+BEGIN
+    INSERT INTO LOG_planillaControl(operacion) VALUES ('INSERT');
+END //
+
+-- actualizaciones
+CREATE TRIGGER trg_auditoria_update
+AFTER UPDATE ON calificacion
+FOR EACH ROW
+BEGIN
+    INSERT INTO LOG_planillaControl(operacion) VALUES ('UPDATE');
+END //
+
+-- eliminaciones
+CREATE TRIGGER trg_auditoria_delete
+AFTER DELETE ON calificacion
+FOR EACH ROW
+BEGIN
+    INSERT INTO LOG_planillaControl(operacion) VALUES ('DELETE');
+END //
+
+DELIMITER ;
+
+
 -- poblacional para el ejercicio
 INSERT INTO calificacion (id_calificacion, fecha, id_tipo, nota) -- ESTA LINEA INSERTA UN VALOR EN UNA SENTENCIA, ES UNA LINEA EN EL LOG
 VALUES (9101, '2025-05-30', 1, 7);
@@ -241,36 +271,6 @@ WHERE id_calificacion IN (9102, 9103, 9104);
 
 DELETE FROM calificacion
 WHERE id_calificacion = 9105;
-
-
--- ejercicio
-DELIMITER //
-
--- inserciones
-CREATE TRIGGER trg_auditoria_insert
-AFTER INSERT ON calificacion
-FOR EACH ROW
-BEGIN
-    INSERT INTO LOG_planillaControl(operacion) VALUES ('INSERT');
-END //
-
--- actualizaciones
-CREATE TRIGGER trg_auditoria_update
-AFTER UPDATE ON calificacion
-FOR EACH ROW
-BEGIN
-    INSERT INTO LOG_planillaControl(operacion) VALUES ('UPDATE');
-END //
-
--- eliminaciones
-CREATE TRIGGER trg_auditoria_delete
-AFTER DELETE ON calificacion
-FOR EACH ROW
-BEGIN
-    INSERT INTO LOG_planillaControl(operacion) VALUES ('DELETE');
-END //
-
-DELIMITER ;
 
 
 
