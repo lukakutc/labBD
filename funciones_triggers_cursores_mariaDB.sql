@@ -26,7 +26,7 @@ DELIMITER ;
 CALL costo_salida_por_alumno(2025);
 
 
---1.2.2
+-- 1.2.2
 DELIMITER //
 
 CREATE FUNCTION calcular_meses(fecha1 DATE, fecha2 DATE) 
@@ -51,7 +51,7 @@ DELIMITER ;
 -- SELECT calcular_meses('2025-03-01', '2026-08-15');
 
 
---1.3
+-- 1.3
 -- poblacional:
 -- 3 docentes
 INSERT INTO personal_docente
@@ -63,8 +63,7 @@ VALUES
 ('DNI', '27333444', 'Laura',   'Quiroga',  'Mitre 820, Cipolletti', 'Argentina',
  '1981-09-30', 'Profesora de Lengua y Literatura', '2994123002', 'laura.quiroga@escuela.edu.ar', '2015-03-01'),
 ('DNI', '30555666', 'Federico','Sandoval', 'Lainez 310, Plottier',  'Argentina',
- '1985-01-18', 'Profesor de Historia', '2994123003', 'federico.sandoval@escuela.edu.ar', '2018-03-01')
-ON CONFLICT (tipo_doc_docente, nro_doc_docente) DO NOTHING;
+ '1985-01-18', 'Profesor de Historia', '2994123003', 'federico.sandoval@escuela.edu.ar', '2018-03-01');
 
 -- Ocupan el cargo 10, con fecha_ini y fecha_fin completas
 INSERT INTO ocupa (fecha_ini, tipo_doc_docente, nro_doc_docente, id_cargo, fecha_fin)
@@ -78,7 +77,7 @@ SELECT p.nombre, p.apellido, o.fecha_ini, o.fecha_fin, calcular_meses(o.fecha_in
 FROM personal_docente p NATURAL JOIN OCUPA o 
 WHERE o.fecha_fin IS NOT NULL AND o.id_cargo = 10;
 
---1.4
+-- 1.4
 DELIMITER //
 
 CREATE FUNCTION calcular_meses2(fecha1 DATE, fecha2 DATE) 
@@ -106,7 +105,7 @@ DELIMITER ;
 
 
 
---1.5
+-- 1.5
 DELIMITER //
 
 CREATE FUNCTION antiguedad_cargo_profesor(
@@ -148,13 +147,13 @@ DELIMITER ;
 
 
 -- fin funciones --------------------------------------------------------------
---2.1
+-- 2.1
 ALTER TABLE personal_docente 
 ADD COLUMN ultimo_ciclo_lectivo VARCHAR(10),
 ADD COLUMN cantidad_dictados_ciclo INT DEFAULT 0;
 
 
---2.2
+-- 2.2
 DELIMITER //
 
 CREATE TRIGGER trg_dictados_año
@@ -187,7 +186,7 @@ DELIMITER ;
 
 
 
---2.3
+-- 2.3
 DELIMITER //
 
 CREATE TRIGGER trg_cascada_manual_intervencion
@@ -203,7 +202,7 @@ DELIMITER ;
 
 
 
---2.4
+-- 2.4
 CREATE TABLE LOG_planillaControl (
     numero_operacion INT AUTO_INCREMENT PRIMARY KEY,
     operacion VARCHAR(10)
@@ -211,18 +210,18 @@ CREATE TABLE LOG_planillaControl (
 
 
 
---2.5
---poblacional para el ejercicio
-INSERT INTO calificacion (id_calificacion, fecha, id_tipo, nota) --ESTA LINEA INSERTA UN VALOR EN UNA SENTENCIA, ES UNA LINEA EN EL LOG
+-- 2.5
+-- poblacional para el ejercicio
+INSERT INTO calificacion (id_calificacion, fecha, id_tipo, nota) -- ESTA LINEA INSERTA UN VALOR EN UNA SENTENCIA, ES UNA LINEA EN EL LOG
 VALUES (9101, '2025-05-30', 1, 7);
 
 INSERT INTO calificacion (id_calificacion, fecha, id_tipo, nota)
-VALUES (9102, '2025-05-30', 1, 5),(9103, '2025-05-30', 1, 8), (9104, '2025-05-30', 1, 4); --ESTA LINEA INSERTA 3 TUPLAS EN CALIFICACION, PERO EN UNA MISMA SENTENCIA. UNA SOLA LINEA DE LOG
+VALUES (9102, '2025-05-30', 1, 5),(9103, '2025-05-30', 1, 8), (9104, '2025-05-30', 1, 4); -- ESTA LINEA INSERTA 3 TUPLAS EN CALIFICACION, PERO EN UNA MISMA SENTENCIA. UNA SOLA LINEA DE LOG
 
 INSERT INTO calificacion (id_calificacion, fecha, id_tipo, nota)
-VALUES (9105, '2025-06-06', 1, 10); --UNA SENTENCIA DE INSERT (CON UN SOLO INSERT) UNA LINEA DE LOG
+VALUES (9105, '2025-06-06', 1, 10); -- UNA SENTENCIA DE INSERT (CON UN SOLO INSERT) UNA LINEA DE LOG
 
---PARA UPDATES LA MISMA LOGICA, UNA FILA POR SENTENCIA
+-- PARA UPDATES LA MISMA LOGICA, UNA FILA POR SENTENCIA
 UPDATE calificacion
 SET nota = 9
 WHERE id_calificacion = 9101;
@@ -244,7 +243,7 @@ DELETE FROM calificacion
 WHERE id_calificacion = 9105;
 
 
---ejercicio
+-- ejercicio
 DELIMITER //
 
 -- inserciones
@@ -275,13 +274,13 @@ DELIMITER ;
 
 
 
---2.6
---poblacional para el ejercicio
+-- 2.6
+-- poblacional para el ejercicio
 INSERT INTO curso (seccion, turno, anio_academico) VALUES ('Y', 'Tarde', 1); 
 INSERT INTO curso (seccion, turno, anio_academico) VALUES ('Y', 'Noche', 2);
 
 
---ejercicio
+-- ejercicio
 DELIMITER //
 
 CREATE TRIGGER trg_control_dictado_curso_insert
@@ -345,10 +344,10 @@ DELETE FROM curso WHERE seccion = 'Y';
 
 
 
---fin triggers ---------------------------------------
+-- fin triggers ---------------------------------------
 
 
---3.1
+-- 3.1
 DELIMITER //
 
 CREATE PROCEDURE extremos_calificaciones_trimestre(
@@ -429,7 +428,7 @@ END //
 DELIMITER ;
 
 
---3.2
+-- 3.2
 ALTER TABLE participa
 ADD COLUMN costo_individual NUMERIC DEFAULT 0;
 
@@ -492,7 +491,7 @@ DELIMITER ;
 
 
 
---3.3
+-- 3.3
 DELIMITER //
 
 CREATE PROCEDURE listar_materias_area(IN p_area VARCHAR(100))
@@ -537,7 +536,7 @@ BEGIN
 END //
 DELIMITER ;
 
-CALL listar_materias('Lengua y Literatura'); 
+CALL listar_materias_area('Lengua y Literatura'); 
 
 
 -- fin cursores --------------------------------
@@ -549,6 +548,9 @@ DROP TRIGGER IF EXISTS trg_control_dictado_curso_insert;
 DROP TRIGGER IF EXISTS trg_control_dictado_curso_update;
 DROP TRIGGER IF EXISTS `trg_dictados_año`;
 DROP TRIGGER IF EXISTS trg_cascada_manual_intervencion;
+DROP TRIGGER IF EXISTS trg_auditoria_insert;
+DROP TRIGGER IF EXISTS trg_auditoria_update;
+DROP TRIGGER IF EXISTS trg_auditoria_delete;
 
 DROP TABLE IF EXISTS LOG_planillaControl;
 
@@ -562,6 +564,10 @@ ALTER TABLE participa
 DROP PROCEDURE IF EXISTS actualizar_costos_participacion;
 DROP PROCEDURE IF EXISTS extremos_calificaciones_trimestre;
 DROP PROCEDURE IF EXISTS costo_salida_por_alumno;
+DROP PROCEDURE IF EXISTS listar_materias;
+DROP PROCEDURE IF EXISTS listar_materias_areas;
+DROP PROCEDURE IF EXISTS listar_materias_cursor;
+
 DROP FUNCTION IF EXISTS calcular_meses;
 DROP FUNCTION IF EXISTS calcular_meses2;
 DROP FUNCTION IF EXISTS antiguedad_cargo_profesor;
